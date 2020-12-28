@@ -26,10 +26,14 @@ i = 0
 while i < len(a_list):
     tmp = a_list[i]
     print("a_list[i]" + tmp)
-    
     value_list.append(tmp[tmp.find("=")+1:])
     i = i + 1
-
 print("value_list : ")
 print(value_list)
-        
+
+# 5. comparering every single query in a list with postback macros.
+
+# 6. If query strings are all well set according to macros, return a success mesaage otherwise failed message
+
+# 7. Need to detailed failure message to let a person know what is wrong in postback url.
+
