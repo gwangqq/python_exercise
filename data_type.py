@@ -45,7 +45,7 @@ print(split_str.split("&"))
 a = [1, 2, 3]
 b = [4, 5, 6]
 print(a + b)
-print(a * 3)
+print(a * 3 )
 
 
 
