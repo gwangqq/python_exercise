@@ -32,8 +32,29 @@ print("value_list : ")
 print(value_list)
 
 # 5. comparering every single query in a list with postback macros.
+import openpyxl 
+# read excel file through oepnpyxl library
+wb = openpyxl.load_workbook("/Users/gwanggyupark/Documents/postback_macro.xlsx")
+ws = wb['Sheet1']
+
+print('------a list of valid postback macro-----')
+cells = ws['A1':'A155']
+
+macro_list = []
+for row in cells:
+    # print(row)
+    for cell in row:
+        # print(cell.value)
+        macro_list.append(cell.value)
+
 
 # 6. If query strings are all well set according to macros, return a success mesaage otherwise failed message
+# chekcing all the macro in url
+if value_list in macro_list:
+    print("valid")
+else:
+    print("invalid")
+
 
 # 7. Need to detailed failure message to let a person know what is wrong in postback url.
 
