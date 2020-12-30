@@ -50,11 +50,21 @@ for row in cells:
 
 # 6. If query strings are all well set according to macros, return a success mesaage otherwise failed message
 # chekcing all the macro in url
-if value_list in macro_list:
-    print("valid")
-else:
-    print("invalid")
-
+        # if value_list.value in macro_list:
+        #     print("valid")
+        # else:
+        #     print("invalid")
+j = 0
+print(len(value_list))
+while j < len(value_list):
+    tmp = value_list[j]
+    # print(tmp)
+    if tmp in macro_list:
+        print("valid macro")
+        j = j + 1
+    else:
+        print(tmp + "is invalid macro. Check this macro one more time")
+        j = j + 1
 
 # 7. Need to detailed failure message to let a person know what is wrong in postback url.
 
