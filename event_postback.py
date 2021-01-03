@@ -35,10 +35,10 @@ print(value_list)
 import openpyxl 
 # read excel file through oepnpyxl library
 wb = openpyxl.load_workbook("/Users/gwanggyupark/Documents/postback_macro.xlsx")
-ws = wb['Sheet1']
+ws = wb['Sheet2']
 
 print('------a list of valid postback macro-----')
-cells = ws['A1':'A73']
+cells = ws['A1':'A226']
 
 macro_list = []
 for row in cells:
