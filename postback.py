@@ -55,7 +55,6 @@ for row in cells:
         # else:
         #     print("invalid")
 j = 0
-print(len(value_list))
 while j < len(value_list):
     tmp = value_list[j]
     # print(tmp)

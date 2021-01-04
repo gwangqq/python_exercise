@@ -14,7 +14,7 @@ print("registered url: " + postback_url)
 # 2. get query strings from url
 # print(postback_url.find("?"))
 query_string = postback_url[postback_url.find("?")+1:]
-print(query_string)
+# print(query_string)
 
 # 3. spilt query using '&' or '=' and then put in a list
 a_list = query_string.split("&")
@@ -28,8 +28,8 @@ while i < len(a_list):
     print("a_list[i]" + tmp)
     value_list.append(tmp[tmp.find("=")+1:])
     i = i + 1
-print("value_list : ")
-print(value_list)
+# print("value_list : ")
+# print(value_list)
 
 # 5. comparering every single query in a list with postback macros.
 import openpyxl 
@@ -37,8 +37,8 @@ import openpyxl
 wb = openpyxl.load_workbook("/Users/gwanggyupark/Documents/postback_macro.xlsx")
 ws = wb['Sheet2']
 
-print('------a list of valid postback macro-----')
-cells = ws['A1':'A226']
+# print('------a list of valid postback macro-----')
+cells = ws['A1':'A240']
 
 macro_list = []
 for row in cells:
@@ -55,6 +55,7 @@ for row in cells:
         # else:
         #     print("invalid")
 j = 0
+errorNum = 0
 while j < len(value_list):
     tmp = value_list[j]
     # print(tmp)
@@ -62,8 +63,11 @@ while j < len(value_list):
         print("valid macro")
         j = j + 1
     else:
-        print(tmp + "is invalid macro. Check this macro one more time")
+        # when a partner doesn't replace 'attribution_type' with actual value, show detailed message
+        print(tmp + "is invalid macro. Check this macro one more time.")
         j = j + 1
+        error = error + 1
 
+print("{} errors.".format(errorNum))
 # 7. Need to detailed failure message to let a person know what is wrong in postback url.
 

@@ -10,8 +10,6 @@ while i < len(list):
     if tmp in list2:
         print("okay")
         i = i + 1
-        
     else:
         print("not okay")
         i = i + 1
-        

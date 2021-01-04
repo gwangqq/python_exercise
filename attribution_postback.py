@@ -38,7 +38,7 @@ wb = openpyxl.load_workbook("/Users/gwanggyupark/Documents/postback_macro.xlsx")
 ws = wb['Sheet1']
 
 print('------a list of valid postback macro-----')
-cells = ws['A1':'A82']
+cells = ws['A1':'A77']
 
 macro_list = []
 for row in cells:
