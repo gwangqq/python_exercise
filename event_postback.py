@@ -25,7 +25,7 @@ value_list = []
 i = 0
 while i < len(a_list):
     tmp = a_list[i]
-    print("a_list[i]" + tmp)
+    # print("a_list[{}]".format(i) + tmp)
     value_list.append(tmp[tmp.find("=")+1:])
     i = i + 1
 # print("value_list : ")
@@ -56,18 +56,20 @@ for row in cells:
         #     print("invalid")
 j = 0
 errorNum = 0
+correctNum = 0
 while j < len(value_list):
     tmp = value_list[j]
     # print(tmp)
     if tmp in macro_list:
         print("valid macro")
         j = j + 1
+        correctNum = correctNum + 1
     else:
         # when a partner doesn't replace 'attribution_type' with actual value, show detailed message
         print(tmp + "is invalid macro. Check this macro one more time.")
         j = j + 1
         error = error + 1
 
-print("{} errors.".format(errorNum))
+print("{} valid macro and {} invalid macro.".format(correctNum, errorNum))
 # 7. Need to detailed failure message to let a person know what is wrong in postback url.
 

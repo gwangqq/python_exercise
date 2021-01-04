@@ -2,32 +2,31 @@ import sys
 from PyQt5.QtWidgets import *
 
 
-class MyWindow(QMainWindow):
+class MyApp(QWidget):
+
     def __init__(self):
         super().__init__()
-        # layout
-        layout = QVBoxLayout()
-        layout.addWidget(QPushButton('Search'))
-        layout.addWidget(QPushButton('Bottom'))
+        self.initUI()
 
-        # button
-        self.btn = QPushButton("check", self)
-        self.btn.move(20, 20)
+    def initUI(self):
+        self.setWindowTitle('adbrix postback url tester')
+        grid = QGridLayout()
+        self.setLayout(grid)
 
-        # statusbar
-        self.statusbar = QStatusBar(self)
-        self.setStatusBar(self.statusbar)
-        self.statusbar.showMessage("adbrix postback url tester")
+        grid.addWidget(QLabel('Title:'), 0, 0)
+        grid.addWidget(QLabel('Author:'), 1, 0)
+        grid.addWidget(QLabel('Review:'), 2, 0)
 
-        # set width and height of window
-        self.setGeometry(300, 300, 400, 400)
+        grid.addWidget(QLineEdit(), 0, 1)
+        grid.addWidget(QLineEdit(), 1, 1)
+        grid.addWidget(QTextEdit(), 2, 1)
 
-        # edit_text for partner url
-        self.line_edit = QLineEdit(" ", self)
-        self.line_edit.move(10, 20)
+        self.setWindowTitle('QGridLayout')
+        self.setGeometry(600, 600, 500, 300)
+        self.show()
 
 
-app = QApplication(sys.argv)
-window = MyWindow()
-window.show()
-app.exec_()
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = MyApp()
+    sys.exit(app.exec_())
