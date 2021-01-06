@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 import openpyxl
+
 # connection UI file to Python file
 # UI file and Python File must be in the same directory
 form_class = uic.loadUiType("postback_test.ui")[0]
@@ -15,12 +16,15 @@ class WindowClass(QMainWindow, form_class):
 
         # signal to connect button and function
         self.checkButton.clicked.connect(self.checkButtonFunction)
+        self.radioButton1.clicekd.connect(self.chosenRadioButton)
+        self.radioButton2.clicekd.connect(self.chosenRadioButton)
+
 
     # when checkButton is clicked, this function works.
     def checkButtonFunction(self):
         print(self.urlEdit.text())
         testUrl = self.urlEdit.text().strip()
-        postbackType = self.
+
         # 1. extract query strings
         query_string = testUrl[testUrl.find("?") + 1:]
         print(query_string)
@@ -41,10 +45,13 @@ class WindowClass(QMainWindow, form_class):
 
         # read excel file through oepnpyxl library
         wb = openpyxl.load_workbook("/Users/gwanggyupark/Documents/postback_macro.xlsx")
-        ws = wb['Sheet1']
-
+        if self.radioButton1:
+            ws = wb['Sheet1']
+            cells = ws['A1':'A77']
+        elif self.radioButton2:
+            ws = wb['Sheet2']
+            cells = ws['A1':'A240']
         print('------a list of valid postback macro-----')
-        cells = ws['A1':'A77']
 
         macro_list = []
         for row in cells:
@@ -67,6 +74,14 @@ class WindowClass(QMainWindow, form_class):
                 print("\'" + tmp + "\'" + " is invalid macro. Check this macro one more time")
                 j = j + 1
                 errorNum = errorNum + 1
+
+    def chosenRadioButton(self):
+
+        print("A") if a > b else print("=") if a == b else print("B")
+        if self.radioButton1.isChecked():
+            print("GroupBox_rad1 Chekced")
+        elif self.radioButton2.isChecked():
+            print("GroupBox_rad2 Checked")
 
 
 if __name__ == "__main__":
