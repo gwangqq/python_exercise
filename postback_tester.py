@@ -22,7 +22,7 @@ def compareQueryStrings(url, sheet_num, start, end):
     i = 0
     while i < len(a_list):
         tmp = a_list[i]
-        print("a_list[%d] %s" % (i, tmp))
+        # print("a_list[%d] %s" % (i, tmp))
         value_list.append(tmp[tmp.find("=") + 1:])
         i = i + 1
 
@@ -32,7 +32,6 @@ def compareQueryStrings(url, sheet_num, start, end):
     ws = wb[sheet_num]
     cells = ws[start:end]
 
-    # print('------a list of valid postback macro-----')
     macro_list = []
     for row in cells:
         # print(row)
@@ -41,7 +40,7 @@ def compareQueryStrings(url, sheet_num, start, end):
             macro_list.append(cell.value)
 
     # 5. If query strings are all well set according to macros, return a success mesaage otherwise failed message
-    # chekcing all the macro in url
+    # checking all the macros in url
     j = 0
     errorNum = 0
     while j < len(value_list):
@@ -51,12 +50,13 @@ def compareQueryStrings(url, sheet_num, start, end):
             print("valid macro")
             j = j + 1
         else:
-            print("\'" + tmp + "\'" + " is invalid macro. Check this macro one more time")
+            print("\'" + tmp + "\'" + " is invalid macro. Check this macro one more time.")
             j = j + 1
             errorNum = errorNum + 1
+    return errorNum
 
 
-# class
+# window class
 class WindowClass(QMainWindow, form_class):
     def __init__(self):
         super().__init__()
@@ -69,13 +69,27 @@ class WindowClass(QMainWindow, form_class):
     def checkButtonFunction(self):
         testUrl = self.urlEdit.text().strip()
         print(self.urlEdit.text())
-        # put different excel data according to options
+
+        # put different conditions when open excel file
         if self.radioButton1.isChecked():
-            compareQueryStrings(testUrl, 'Sheet1', 'A1', 'A77')
+            num = compareQueryStrings(testUrl, 'Sheet1', 'A1', 'A77')
+            if num == 0:
+                print("This postback is correct postback url.")
+                self.resultLabel.setText("This postback is correct postback url.")
+            else:
+                print("%d invalid macro" % num)
+                self.resultLabel.setText("%d errors is found." % num)
         else:
-            compareQueryStrings(testUrl, 'Sheet2', 'A1', 'A240')
+            num = compareQueryStrings(testUrl, 'Sheet2', 'A1', 'A240')
+            if num == 0:
+                print("This postback is correct postback url.")
+                self.resultLabel.setText("This postback is correct postback url." % num)
+            else:
+                print("%d invalid macro" % num)
+                self.resultLabel.setText("%d errors is found." % num)
 
 
+# execute this file
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     myWindow = WindowClass()
