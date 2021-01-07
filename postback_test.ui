@@ -95,9 +95,9 @@
      <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
-        <string>Result</string>
+        <string>Domain</string>
        </property>
-       <widget class="QLabel" name="resultLabel">
+       <widget class="QLabel" name="domain">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -114,6 +114,21 @@
      </item>
     </layout>
    </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>230</y>
+      <width>771</width>
+      <height>351</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <item>
+      <widget class="QTextEdit" name="detailTextEdit"/>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -121,7 +136,7 @@
      <x>0</x>
      <y>0</y>
      <width>790</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
