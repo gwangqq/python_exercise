@@ -4,60 +4,45 @@ from PyQt5.QtGui import *
 from PyQt5 import uic
 import openpyxl
 
-# connection UI file to Python file
-# UI file and Python File must be in the same directory
+# connection UI file to Python file. UI file and Python File must be in the same directory
 form_class = uic.loadUiType("postback_test.ui")[0]
 
+# -----------------------make two lists of postback macro-----------------------------
+# "/Users/gwanggyupark/Documents/postback_macro.xlsx" -> file directory for Mac
+wb = openpyxl.load_workbook("/Users/gwanggyupark/Documents/postback_macro.xlsx")
 
-# compare partner's postback url with adbrix postback macro
-def compareQueryStrings(url, sheet_num, start, end):
-    # 1. extract query strings
-    query_string = url[url.find("?") + 1:]
-    print(query_string)
+# make a list of attribution postback macro
+ws_attribution = wb["Sheet1"]
+cells_attribution = ws_attribution['A1':'A77']
+attribution_macro_list = []
+for row in cells_attribution:
+    for cell in row:
+        attribution_macro_list.append(cell.value)
+# print(">>>>>>>>attribution macro list is made>>>>>>>>")
+# print(attribution_macro_list)
 
-    # 2. spilt query using '&' or '=' and then put in a list
-    a_list = query_string.split("&")
+# make a list of event postback macro
+ws_event = wb["Sheet2"]
+cells_event = ws_event['A1':'A240']
+event_macro_list = []
+for row in cells_event:
+    for cell in row:
+        event_macro_list.append(cell.value)
 
-    # 3. make a list of query string values
-    value_list = []
-    i = 0
-    while i < len(a_list):
-        tmp = a_list[i]
-        # print("a_list[%d] %s" % (i, tmp))
-        value_list.append(tmp[tmp.find("=") + 1:])
-        i = i + 1
+# print(">>>>>>>>event macro list is made>>>>>>>>")
+# print(event_macro_list)
 
-    # 4. comparing every single query in a list with postback macros.
-    # read excel file through oepnpyxl library
-    # "/Users/gwanggyupark/Documents/postback_macro.xlsx" -> file directory for Mac
-    wb = openpyxl.load_workbook("postback_macro.xlsx")
-    ws = wb[sheet_num]
-    cells = ws[start:end]
+# ---------------------------------------------------------------------------------
+# text color
+green = "<font color=\"Green\">"
+pink = "<font color=\"Red\">"
+end = "</font>"
 
-    macro_list = []
-    for row in cells:
-        # print(row)
-        for cell in row:
-            # print(cell.value)
-            macro_list.append(cell.value)
 
-    # 5. If query strings are all well set according to macros, return a success mesaage otherwise failed message
-    # checking all the macros in url
-    j = 0
-    error_num = 0
-    error_list = []
-    while j < len(value_list):
-        tmp = value_list[j]
-        # print(tmp)
-        if tmp in macro_list:
-            print("valid macro")
-            j = j + 1
-        else:
-            print("\'" + tmp + "\'" + " is invalid macro. Check this macro one more time.")
-            j = j + 1
-            error_list.append(tmp)
-            error_num = error_num + 1
-    return error_list
+# split query strings by '&'
+def splitQueryString(query_strings):
+    split_query_strings = query_strings.split("&")
+    return split_query_strings
 
 
 # window class
@@ -71,39 +56,54 @@ class WindowClass(QMainWindow, form_class):
 
     # when checkButton is clicked, this function works.
     def checkButtonFunction(self):
-        self.detailTextEdit.setText('')
+        # clear detailTextEdit
+        self.detailTextEdit.clear()
         test_url = self.urlEdit.text().strip()
+
+        # set domain on label in the middle of window
         domain = test_url[:test_url.find("?")]
         self.domain.setText(domain)
-        print(self.urlEdit.text())
 
-        # put different conditions when open excel file
+        # split query strings from postback url
+        query_string = test_url[test_url.find("?") + 1:]
+        print(">>>>>>>>>> check button is clicked")
+        # print(self.urlEdit.text())
+
+        # radio buttons for options(attribution, event)
         if self.radioButton1.isChecked():
-            error_list = compareQueryStrings(test_url, 'Sheet1', 'A1', 'A77')
-            num = len(error_list)
-            print(num)
-            if num == 0:
-                print("Right format.")
-                # self.resultLabel.setText("This postback is correct postback url.")
-                self.detailTextEdit.setText(test_url)
-            else:
-                print("%d invalid macro" % num)
-                # self.resultLabel.setText("%d errors are found." % num)
-                self.detailTextEdit.setText(test_url)
-                checked_url = self.detailTextEdit.text()
-
+            # compare attribution macro list with query strings
+            split_query_strings = splitQueryString(query_string)
+            print(">>>>>>>>>radioButton1.isChecked()")
+            print(split_query_strings)
+            print(len(split_query_strings))
+            i = 0
+            while i < len(split_query_strings):
+                value = split_query_strings[i][split_query_strings[i].find("=") + 1:]
+                print(">>>>>>>>radioButton1")
+                print(value)
+                if value in attribution_macro_list:
+                    print(split_query_strings[i])
+                    self.detailTextEdit.append(green + split_query_strings[i] + end)
+                else:
+                    self.detailTextEdit.append(pink + split_query_strings[i] + end)
+                i = i + 1
+                print(i)
         else:
-            error_list = compareQueryStrings(test_url, 'Sheet2', 'A1', 'A240')
-            num = len(error_list)
-            if num == 0:
-                print("Right format.")
-                # self.resultLabel.setText("This postback is correct postback url." % num)
-                self.detailTextEdit.setText(test_url)
-            else:
-                print("%d invalid macro" % num)
-                # self.resultLabel.setText("%d errors are found." % num)
-                self.detailTextEdit.setText(test_url)
-                checked_url = self.detailTextEdit.text()
+            # compare attribution macro list with query strings
+            split_query_strings = splitQueryString(query_string)
+            print(">>>>>>>>>radioButton2.isChecked()")
+            print(split_query_strings)
+            i = 0
+            while i < len(split_query_strings):
+                value = split_query_strings[i][split_query_strings[i].find("=") + 1:]
+                print(">>>>>>>>radioButton2")
+                print(value)
+                if value in event_macro_list:
+                    self.detailTextEdit.append(green + split_query_strings[i] + end)
+                else:
+                    self.detailTextEdit.append(pink + split_query_strings[i] + end)
+                i = i + 1
+                print(i)
 
 
 # execute this file
