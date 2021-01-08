@@ -1,6 +1,5 @@
 import sys
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
 from PyQt5 import uic
 import openpyxl
 
@@ -9,9 +8,9 @@ form_class = uic.loadUiType("postback_test.ui")[0]
 
 # -----------------------make two lists of postback macro-----------------------------
 # "/Users/gwanggyupark/Documents/postback_macro.xlsx" -> file directory for Mac
-wb = openpyxl.load_workbook("/Users/gwanggyupark/Documents/postback_macro.xlsx")
+wb = openpyxl.load_workbook("postback_macro.xlsx")
 
-# make a list of attribution postback macro
+# make a list of attribution postback mcro
 ws_attribution = wb["Sheet1"]
 cells_attribution = ws_attribution['A1':'A77']
 attribution_macro_list = []
@@ -35,7 +34,7 @@ for row in cells_event:
 # ---------------------------------------------------------------------------------
 # text color
 green = "<font color=\"Green\">"
-pink = "<font color=\"Red\">"
+red = "<font color=\"Red\">"
 end = "</font>"
 
 
@@ -53,6 +52,7 @@ class WindowClass(QMainWindow, form_class):
 
         # signal to connect button and function
         self.checkButton.clicked.connect(self.checkButtonFunction)
+        self.changeUrlButton.clicked.connect(self.changeUrlButtonFunction)
 
     # when checkButton is clicked, this function works.
     def checkButtonFunction(self):
@@ -66,44 +66,52 @@ class WindowClass(QMainWindow, form_class):
 
         # split query strings from postback url
         query_string = test_url[test_url.find("?") + 1:]
-        print(">>>>>>>>>> check button is clicked")
+        # print(">>>>>>>>>> check button is clicked")
         # print(self.urlEdit.text())
 
         # radio buttons for options(attribution, event)
         if self.radioButton1.isChecked():
             # compare attribution macro list with query strings
             split_query_strings = splitQueryString(query_string)
-            print(">>>>>>>>>radioButton1.isChecked()")
-            print(split_query_strings)
-            print(len(split_query_strings))
+            # print(">>>>>>>>>radioButton1.isChecked()")
+            # print(split_query_strings)
+            # print(len(split_query_strings))
             i = 0
             while i < len(split_query_strings):
                 value = split_query_strings[i][split_query_strings[i].find("=") + 1:]
-                print(">>>>>>>>radioButton1")
-                print(value)
+                # print(">>>>>>>>radioButton1")
+                # print(value)
                 if value in attribution_macro_list:
                     print(split_query_strings[i])
                     self.detailTextEdit.append(green + split_query_strings[i] + end)
                 else:
-                    self.detailTextEdit.append(pink + split_query_strings[i] + end)
+                    self.detailTextEdit.append(red + split_query_strings[i] + end)
                 i = i + 1
-                print(i)
+                # print(i)
         else:
             # compare attribution macro list with query strings
             split_query_strings = splitQueryString(query_string)
-            print(">>>>>>>>>radioButton2.isChecked()")
-            print(split_query_strings)
+            # print(">>>>>>>>>radioButton2.isChecked()")
+            # print(split_query_strings)
             i = 0
             while i < len(split_query_strings):
                 value = split_query_strings[i][split_query_strings[i].find("=") + 1:]
-                print(">>>>>>>>radioButton2")
-                print(value)
+                # print(">>>>>>>>radioButton2")
+                # print(value)
                 if value in event_macro_list:
                     self.detailTextEdit.append(green + split_query_strings[i] + end)
                 else:
-                    self.detailTextEdit.append(pink + split_query_strings[i] + end)
+                    self.detailTextEdit.append(red + split_query_strings[i] + end)
                 i = i + 1
-                print(i)
+                # print(i)
+
+    # changeUrlButton
+    # get checked query strings and put them together with domain
+    def changeUrlButtonFunction(self):
+        # get changed postback macro
+        checkedMacro = self.detailTextEdit.toPlainText()
+        completedUrl = self.domain.text() + "?" + checkedMacro
+        self.editedUrl.setText(completedUrl.replace("\n", "&"))
 
 
 # execute this file
