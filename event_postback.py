@@ -13,12 +13,11 @@ print("registered url: " + postback_url)
 
 # 2. get query strings from url
 # print(postback_url.find("?"))
-query_string = postback_url[postback_url.find("?")+1:]
+query_string = postback_url[postback_url.find("?") + 1:]
 # print(query_string)
 
 # 3. spilt query using '&' or '=' and then put in a list
 a_list = query_string.split("&")
-
 
 # 4. make a list of query string values
 value_list = []
@@ -26,13 +25,14 @@ i = 0
 while i < len(a_list):
     tmp = a_list[i]
     # print("a_list[{}]".format(i) + tmp)
-    value_list.append(tmp[tmp.find("=")+1:])
+    value_list.append(tmp[tmp.find("=") + 1:])
     i = i + 1
 # print("value_list : ")
 # print(value_list)
 
 # 5. comparering every single query in a list with postback macros.
-import openpyxl 
+import openpyxl
+
 # read excel file through oepnpyxl library
 wb = openpyxl.load_workbook("/Users/gwanggyupark/Documents/postback_macro.xlsx")
 ws = wb['Sheet2']
@@ -47,13 +47,12 @@ for row in cells:
         # print(cell.value)
         macro_list.append(cell.value)
 
-
 # 6. If query strings are all well set according to macros, return a success mesaage otherwise failed message
 # chekcing all the macro in url
-        # if value_list.value in macro_list:
-        #     print("valid")
-        # else:
-        #     print("invalid")
+# if value_list.value in macro_list:
+#     print("valid")
+# else:
+#     print("invalid")
 j = 0
 errorNum = 0
 correctNum = 0
@@ -72,4 +71,3 @@ while j < len(value_list):
 
 print("{} valid macro and {} invalid macro.".format(correctNum, errorNum))
 # 7. Need to detailed failure message to let a person know what is wrong in postback url.
-

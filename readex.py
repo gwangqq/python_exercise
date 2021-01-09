@@ -4,7 +4,7 @@
 
 # print(df)
 
-import openpyxl 
+import openpyxl
 
 wb = openpyxl.load_workbook("/Users/gwanggyupark/Documents/postback_macro.xlsx")
 ws = wb['Sheet1']

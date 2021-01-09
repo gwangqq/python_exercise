@@ -8,11 +8,16 @@ form_class = uic.loadUiType("postback_test.ui")[0]
 
 # -----------------------make two lists of postback macro-----------------------------
 # "/Users/gwanggyupark/Documents/postback_macro.xlsx" -> file directory for Mac
-wb = openpyxl.load_workbook("postback_macro.xlsx")
+wb = openpyxl.load_workbook("postback_macro.xlsx", data_only=True)
 
-# make a list of attribution postback mcro
+# make a list of attribution postback macro
 ws_attribution = wb["Sheet1"]
-cells_attribution = ws_attribution['A1':'A77']
+# changeable count of attribution macro
+count_attribution = 0
+for row in ws_attribution:
+    if not all([cell.value is None for cell in row]):
+        count_attribution += 1
+cells_attribution = ws_attribution['A1':'A%d' % count_attribution]
 attribution_macro_list = []
 for row in cells_attribution:
     for cell in row:
@@ -22,7 +27,12 @@ for row in cells_attribution:
 
 # make a list of event postback macro
 ws_event = wb["Sheet2"]
-cells_event = ws_event['A1':'A240']
+# changeable count of event macro
+count_event = 0
+for row in ws_event:
+    if not all([cell.value is None for cell in row]):
+        count_event += 1
+cells_event = ws_event['A1':'A%d' % count_event]
 event_macro_list = []
 for row in cells_event:
     for cell in row:
@@ -110,8 +120,11 @@ class WindowClass(QMainWindow, form_class):
     def changeUrlButtonFunction(self):
         # get changed postback macro
         checkedMacro = self.detailTextEdit.toPlainText()
-        completedUrl = self.domain.text() + "?" + checkedMacro
-        self.editedUrl.setText(completedUrl.replace("\n", "&"))
+        if checkedMacro:
+            completedUrl = self.domain.text() + "?" + checkedMacro
+            self.editedUrl.setText(completedUrl.replace("\n", "&"))
+        else:
+            self.detailTextEdit.clear()
 
 
 # execute this file

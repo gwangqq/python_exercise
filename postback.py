@@ -32,9 +32,9 @@ print("value_list : ")
 print(value_list)
 
 # 5. comparering every single query in a list with postback macros.
-import openpyxl 
+import openpyxl_test
 # read excel file through oepnpyxl library
-wb = openpyxl.load_workbook("/Users/gwanggyupark/Documents/postback_macro.xlsx")
+wb = openpyxl_test.load_workbook("/Users/gwanggyupark/Documents/postback_macro.xlsx")
 ws = wb['Sheet1']
 
 print('------a list of valid postback macro-----')
