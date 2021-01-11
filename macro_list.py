@@ -48,7 +48,7 @@ while j < count_attribution:
     attribution_dict[attribution_macro_list[j]] = "{0}|{1}".format(attribution_macro_list_description[j],
                                                                    attribution_macro_list_example[j])
     j = j + 1
-print(attribution_dict)
+# print(attribution_dict)
 # make a list of event postback macro
 ws_event = wb["Sheet4"]
 # changeable count of event macro
@@ -129,7 +129,7 @@ class WindowClass(QMainWindow, form_class):
     def listClickFunction(self):
         self.macroDescription.clear()
         item = self.macroList.currentItem().text()
-        print(item)
+        # print(item)
         if self.radioButton.isChecked():
             # print("radioButton clicked : %d" + self.radioButton.isChecked())
             value = attribution_dict[item].split("|")
@@ -142,19 +142,20 @@ class WindowClass(QMainWindow, form_class):
     def searchButtonFunction(self):
         searched_macro = self.searchEdit.text()
         self.macroList.clear()
+        self.macroDescription.clear()
         if self.radioButton.isChecked():
             i = 0
             while i < len(attribution_macro_list):
                 if searched_macro in attribution_macro_list[i]:
                     self.macroList.addItem(attribution_macro_list[i])
-                    print(attribution_macro_list[i])
+                    # print(attribution_macro_list[i])
                 i = i + 1
         elif self.radioButton2.isChecked():
             i = 0
             while i < len(event_macro_list):
                 if searched_macro in event_macro_list[i]:
                     self.macroList.addItem(event_macro_list[i])
-                    print(event_macro_list[i])
+                    # print(event_macro_list[i])
                 i = i + 1
 
 
