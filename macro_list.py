@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import *
-from PyQt5 import uic, QtGui
+from PyQt5 import uic
 import openpyxl
 
 # connection UI file to Python file. UI file and Python File must be in the same directory
@@ -79,11 +79,11 @@ for row in cells_event_description:
 for row in cells_event_example:
     for cell in row:
         event_macro_list_example.append(cell.value)
-
-while j < count_event:
-    event_dict[event_macro_list[j]] = "{0}|{1}".format(event_macro_list_description[j],
-                                                       event_macro_list_example[j])
-    j = j + 1
+k = 0
+while k < count_event:
+    event_dict[event_macro_list[k]] = "{0}|{1}".format(event_macro_list_description[k],
+                                                       event_macro_list_example[k])
+    k = k + 1
 
 
 # -------------------------------------------------------------------------
@@ -106,6 +106,8 @@ class WindowClass(QMainWindow, form_class):
         self.macroList.itemClicked.connect(self.listClickFunction)
         # when search button is clicked -> find specific macro
         self.searchButton.clicked.connect(self.searchButtonFunction)
+        # when user push return
+        self.searchEdit.returnPressed.connect(self.searchButtonFunction)
 
     # function when radio button is clicked
     def checkRadio(self):
@@ -126,15 +128,15 @@ class WindowClass(QMainWindow, form_class):
     # function when a item on the list is clicked
     def listClickFunction(self):
         self.macroDescription.clear()
-        item = self.macroList.currentItem()
+        item = self.macroList.currentItem().text()
         print(item)
         if self.radioButton.isChecked():
             # print("radioButton clicked : %d" + self.radioButton.isChecked())
             value = attribution_dict[item].split("|")
-            self.macroDescription.append("{}\n\n{}".format(value[0], value[1]))
+            self.macroDescription.append("{0}\n\n{1}".format(value[0], value[1]))
         elif self.radioButton2.isChecked():
             value = event_dict[item].split("|")
-            self.macroDescription.append("{}\n\n{}".format(value[0], value[1]))
+            self.macroDescription.append("{0}\n\n{1}".format(value[0], value[1]))
 
     # when user want to find specific macro on the list
     def searchButtonFunction(self):
@@ -152,7 +154,7 @@ class WindowClass(QMainWindow, form_class):
             while i < len(event_macro_list):
                 if searched_macro in event_macro_list[i]:
                     self.macroList.addItem(event_macro_list[i])
-                    print(attribution_macro_list[i])
+                    print(event_macro_list[i])
                 i = i + 1
 
 

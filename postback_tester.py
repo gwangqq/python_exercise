@@ -63,6 +63,8 @@ class WindowClass(QMainWindow, form_class):
         # signal to connect button and function
         self.checkButton.clicked.connect(self.checkButtonFunction)
         self.changeUrlButton.clicked.connect(self.changeUrlButtonFunction)
+        # when user push return
+        self.urlEdit.returnPressed.connect(self.checkButtonFunction)
 
     # when checkButton is clicked, this function works.
     def checkButtonFunction(self):
