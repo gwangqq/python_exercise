@@ -8,81 +8,81 @@ form_class = uic.loadUiType("macro_list.ui")[0]
 
 # -----------------------make lists of postback macro-----------------------------
 # "/Users/gwanggyupark/Documents/postback_macro.xlsx" -> file directory for Mac
-wb = openpyxl.load_workbook("postback_macro.xlsx", data_only=True)
+wb_macro = openpyxl.load_workbook("postback_macro.xlsx", data_only=True)
 
 # make a list of attribution postback macro
-ws_attribution = wb["Sheet3"]
+ws_attribution_macro = wb_macro["Sheet3"]
 # changeable count of attribution macro
-count_attribution = 0
-for row in ws_attribution:
+count_attribution_macro = 0
+for row in ws_attribution_macro:
     if not all([cell.value is None for cell in row]):
-        count_attribution += 1
+        count_attribution_macro += 1
 # print(count_attribution)
 # cells
-cells_attribution = ws_attribution['A1':'A%d' % count_attribution]
-cells_attribution_description = ws_attribution['B1':'B%d' % count_attribution]
-cells_attribution_example = ws_attribution['C1':'C%d' % count_attribution]
+cells_attribution_macro = ws_attribution_macro['A1':'A%d' % count_attribution_macro]
+cells_attribution_description_macro = ws_attribution_macro['B1':'B%d' % count_attribution_macro]
+cells_attribution_example_macro = ws_attribution_macro['C1':'C%d' % count_attribution_macro]
 
 # list
-attribution_macro_list = []
-attribution_macro_list_description = []
-attribution_macro_list_example = []
+attribution_macro_list_macro = []
+attribution_macro_list_description_macro = []
+attribution_macro_list_example_macro = []
 # attribution dictionary
 attribution_dict = {}
 # set value at each list
-for row in cells_attribution:
+for row in cells_attribution_macro:
     for cell in row:
-        attribution_macro_list.append(cell.value)
+        attribution_macro_list_macro.append(cell.value)
 
-for row in cells_attribution_description:
+for row in cells_attribution_description_macro:
     for cell in row:
-        attribution_macro_list_description.append(cell.value)
+        attribution_macro_list_description_macro.append(cell.value)
 
-for row in cells_attribution_example:
+for row in cells_attribution_example_macro:
     for cell in row:
-        attribution_macro_list_example.append(cell.value)
+        attribution_macro_list_example_macro.append(cell.value)
 # print(">>>>>>>>attribution macro list is made>>>>>>>>")
 # print(attribution_macro_list)
 j = 0
-while j < count_attribution:
-    attribution_dict[attribution_macro_list[j]] = "{0}|{1}".format(attribution_macro_list_description[j],
-                                                                   attribution_macro_list_example[j])
+while j < count_attribution_macro:
+    attribution_dict[attribution_macro_list_macro[j]] = "{0}|{1}".format(attribution_macro_list_description_macro[j],
+                                                                         attribution_macro_list_example_macro[j])
     j = j + 1
 # print(attribution_dict)
 # make a list of event postback macro
-ws_event = wb["Sheet4"]
+ws_event_macro = wb_macro["Sheet4"]
 # changeable count of event macro
-count_event = 0
-for row in ws_event:
+count_event_macro = 0
+for row in ws_event_macro:
     if not all([cell.value is None for cell in row]):
-        count_event += 1
+        count_event_macro += 1
 # print(count_event)
 # cells
-cells_event = ws_event['A1':'A%d' % count_event]
-cells_event_description = ws_event['B1':'B%d' % count_event]
-cells_event_example = ws_event['C1':'C%d' % count_event]
+cells_event_macro = ws_event_macro['A1':'A%d' % count_event_macro]
+cells_event_description_macro = ws_event_macro['B1':'B%d' % count_event_macro]
+cells_event_example_macro = ws_event_macro['C1':'C%d' % count_event_macro]
 # list
-event_macro_list = []
-event_macro_list_description = []
-event_macro_list_example = []
+event_macro_list_macro = []
+event_macro_list_description_macro = []
+event_macro_list_example_macro = []
 # event dictionary
 event_dict = {}
 # set value at each list
-for row in cells_event:
+for row in cells_event_macro:
     for cell in row:
-        event_macro_list.append(cell.value)
+        event_macro_list_macro.append(cell.value)
 
-for row in cells_event_description:
+for row in cells_event_description_macro:
     for cell in row:
-        event_macro_list_description.append(cell.value)
+        event_macro_list_description_macro.append(cell.value)
 
-for row in cells_event_example:
+for row in cells_event_example_macro:
     for cell in row:
-        event_macro_list_example.append(cell.value)
+        event_macro_list_example_macro.append(cell.value)
 k = 0
-while k < count_event:
-    event_dict[event_macro_list[k]] = "{0}|{1}".format(event_macro_list_description[k],
-                                                       event_macro_list_example[k])
+while k < count_event_macro:
+    event_dict[event_macro_list_macro[k]] = "{0}|{1}".format(event_macro_list_description_macro[k],
+                                                             event_macro_list_example_macro[k])
     k = k + 1
 
 
@@ -95,9 +95,9 @@ class WindowClass(QMainWindow, form_class):
         # add items in a list widget
         i = 0
         # default value
-        while i < len(attribution_macro_list):
+        while i < len(attribution_macro_list_macro):
             # print(attribution_macro_list[i])
-            self.macroList.addItem(attribution_macro_list[i])
+            self.macroList.addItem(attribution_macro_list_macro[i])
             i = i + 1
         # radio button
         self.radioButton.clicked.connect(self.checkRadio)
@@ -116,13 +116,13 @@ class WindowClass(QMainWindow, form_class):
         i = 0
         if self.radioButton.isChecked():
             print("radioButton checked")
-            while i < len(attribution_macro_list):
-                self.macroList.addItem(attribution_macro_list[i])
+            while i < len(attribution_macro_list_macro):
+                self.macroList.addItem(attribution_macro_list_macro[i])
                 i = i + 1
         elif self.radioButton2.isChecked():
             print("radioButton2 checked")
-            while i < len(event_macro_list):
-                self.macroList.addItem(event_macro_list[i])
+            while i < len(event_macro_list_macro):
+                self.macroList.addItem(event_macro_list_macro[i])
                 i = i + 1
 
     # function when a item on the list is clicked
@@ -145,16 +145,16 @@ class WindowClass(QMainWindow, form_class):
         self.macroDescription.clear()
         if self.radioButton.isChecked():
             i = 0
-            while i < len(attribution_macro_list):
-                if searched_macro in attribution_macro_list[i]:
-                    self.macroList.addItem(attribution_macro_list[i])
+            while i < len(attribution_macro_list_macro):
+                if searched_macro in attribution_macro_list_macro[i]:
+                    self.macroList.addItem(attribution_macro_list_macro[i])
                     # print(attribution_macro_list[i])
                 i = i + 1
         elif self.radioButton2.isChecked():
             i = 0
-            while i < len(event_macro_list):
-                if searched_macro in event_macro_list[i]:
-                    self.macroList.addItem(event_macro_list[i])
+            while i < len(event_macro_list_macro):
+                if searched_macro in event_macro_list_macro[i]:
+                    self.macroList.addItem(event_macro_list_macro[i])
                     # print(event_macro_list[i])
                 i = i + 1
 
