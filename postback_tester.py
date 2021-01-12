@@ -140,6 +140,7 @@ class MacroClass(QMainWindow, form_class2):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.move(600, 300)
         # add items in a list widget
         i = 0
         # default value
