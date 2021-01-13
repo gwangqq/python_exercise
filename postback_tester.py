@@ -5,7 +5,7 @@ import openpyxl
 
 # connection UI file to Python file. UI file and Python File must be in the same directory
 form_class = uic.loadUiType("postback_test.ui")[0]
-form_class2 = uic.loadUiType("macro_popup.ui")[0]
+form_class2 = uic.loadUiType("macro_list.ui")[0]
 # -----------------------make two lists of postback macro-----------------------------
 # "/Users/gwanggyupark/Documents/postback_macro.xlsx" -> file directory for Mac
 wb = openpyxl.load_workbook("postback_macro.xlsx", data_only=True)
