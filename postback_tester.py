@@ -281,7 +281,7 @@ class WindowClass(QMainWindow, form_class):
     # get checked query strings and put them together with domain
     def changeUrlButtonFunction(self):
         # get changed postback macro
-        checkedMacro = self.detailTextEdit.toPlainText()
+        checkedMacro = self.detailTextEdit.toPlainText().strip()
         if checkedMacro:
             completedUrl = self.domain.text() + "?" + checkedMacro
             self.editedUrl.setText(completedUrl.replace("\n", "&"))
